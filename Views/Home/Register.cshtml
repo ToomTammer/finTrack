@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Login Page";
+}
+
+<link rel="stylesheet" href="/css/login.css">
+<link rel="stylesheet" href="/css/loading.css">
+
+<div id="spinner" class="spinner" style=" display: none; ">
+    <img src="https://cdn.pixabay.com/animation/2023/08/11/21/18/21-18-05-265_512.gif" alt="Loading...">
+</div>
+<div class="auth-container">
+    <h2>Register</h2>
+    <form id="registerForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" value="" required>
+        <div class="row">
+            <div class="col">
+                <label for="username">First Name:</label>
+                <input type="text" id="firstName" name="FirstName" value="" required>
+            </div>
+             <div class="col">
+                <label for="username">Last Name:</label>
+                <input type="text" id="lastName" name="LastName" value="" required>
+            </div>
+        </div>
+        <label for="password">Email:</label>
+        <input type="text" id="email" name="email" value="" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" value="" required>
+        
+        <button type="submit">Register</button>
+    </form>
+    <p id="message"></p>
+</div>
+
+<script src="/js/register.js" defer></script>

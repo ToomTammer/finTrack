@@ -1,0 +1,154 @@
+<style>
+
+.pagination {
+    display: inline-flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: 0.25rem;
+    margin-top: 20px;
+}
+
+
+.pagination .page-link {
+    position: relative;
+    display: block;
+    padding: 0.5rem 0.75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #007bff;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+.pagination .page-link:hover {
+    background-color: #f8f9fa;
+    color: #0056b3;
+}
+
+
+.pagination .active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    cursor: default;
+}
+
+.pagination .disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #fff;
+    border-color: #dee2e6;
+}
+
+
+.pagination .page-item:first-child .page-link,
+.pagination .page-item:last-child .page-link {
+    border-radius: 0.25rem;
+}
+
+
+</style>
+
+<div class="text-center">
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+
+            @if (ViewBag.PageNumber == 1)
+            {
+                <li class="page-item disabled">
+                    <a class="page-link" aria-disabled="true" tabindex="-1"> Prev</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" href="javascript:go_page(@ViewBag.PageNumber - 1)" style="color:black"> Prev</a>
+                </li>
+            }
+
+            @{
+                int startPage = 1;
+                int endPage = ViewBag.PageNumberTotal;
+                if (ViewBag.PageNumber > 2)
+                {
+                    startPage = ViewBag.PageNumber - 2;
+                }
+                if (ViewBag.PageNumber < ViewBag.PageNumberTotal - 1)
+                {
+                    endPage = ViewBag.PageNumber + 2;
+                }
+            }
+
+            @if (startPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="javascript:go_page(1)" style="color: black;">1</a>
+                </li>
+                @if (startPage > 2)
+                {
+                    <li class="page-item disabled"><a class="page-link">...</a></li>
+                }
+            }
+
+            @for (int i = startPage; i <= endPage; i++)
+            {
+                if (ViewBag.PageNumber == i)
+                {
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link">@i</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:go_page(@i)" style="color: black;">@i</a>
+                    </li>
+                }
+            }
+
+            @if (endPage < ViewBag.PageNumberTotal)
+            {
+                @if (endPage < ViewBag.PageNumberTotal - 1)
+                {
+                    <li class="page-item disabled"><a class="page-link">...</a></li>
+                }
+                <li class="page-item">
+                    <a class="page-link" href="javascript:go_page(@ViewBag.PageNumberTotal)" style="color: black;">@ViewBag.PageNumberTotal</a>
+                </li>
+            }
+
+            @if (ViewBag.PageNumber == ViewBag.PageNumberTotal || ViewBag.PageNumberTotal == 0)
+            {
+                <li class="page-item disabled">
+                    <a class="page-link">Next</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" href="javascript:go_page(@ViewBag.PageNumber + 1)" style="color:black">Next</a>
+                </li>
+            }
+
+        </ul>
+    </nav>
+</div>
+
+<script defer>
+   function go_page(page) {
+        $('#page').val(page);
+        $('#@ViewBag.FormName').submit();
+    }
+
+    $(document).ready(function () {
+        $('.pagination li:not(.disabled)').on('click', function () {
+            window.location.href = $(this).find('a').attr('href');
+        });
+    });
+
+</script>

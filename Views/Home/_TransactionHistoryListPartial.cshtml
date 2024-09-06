@@ -1,0 +1,59 @@
+@using finTrack.Dto.Transaction;
+@model List<TransactionDto>
+@{
+    Layout = "_AjaxLayout";
+    var TransactionDtoList = Model;
+}
+
+<link rel="stylesheet" href="/css/content.css">
+<table>
+    <thead>
+        <tr>
+            <th>Date Time</th>
+            <th>User</th>
+            <th>Remain</th>
+            <th>Action</th>
+            @if(ViewBag.MenuType == "transfer")
+            {
+                <th>To</th>
+            }else
+            {
+                <th>From</th>
+            }
+            
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(TransactionDtoList != null && TransactionDtoList.Count > 0)
+        {
+            @foreach(var item in TransactionDtoList)
+            {
+                <tr>
+                    <td>@item.DateTimeStr</td>
+                    <td>@(item.UserName)</td>
+                    <td>@item.BalanceStr</td>
+                    <td>@item.Action</td>
+                    @if(ViewBag.MenuType == "transfer")
+                    {
+                        <td>@(item.ToUserName)</td>
+                    }else
+                    {
+                        <td>@(item.FromUserName)</td>
+                    }
+                    <td>@item.AmountStr</td>
+                </tr>
+            }
+        }else{
+            <tr>
+                <td colspan="6">No transactions</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<partial name="_Pagination" />
+
+
+
+
