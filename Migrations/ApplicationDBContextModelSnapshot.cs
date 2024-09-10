@@ -47,13 +47,13 @@ namespace finTrack.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7fdebff4-8563-428a-bd67-576dfd112029",
+                            Id = "07ae672f-480e-4dc2-a158-14b958897b2b",
                             Name = "Amin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2f323509-be86-4c76-90a2-e2b5f107b5bd",
+                            Id = "cd396db0-f318-42ed-b180-7ec38f0112fd",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -262,11 +262,9 @@ namespace finTrack.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("FromUserID")
-                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("ToUserID")
-                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("UserID")
@@ -340,14 +338,12 @@ namespace finTrack.Migrations
                     b.HasOne("finTrack.Models.AppUser", "FromUser")
                         .WithMany()
                         .HasForeignKey("FromUserID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("finTrack.Models.AppUser", "ToUser")
                         .WithMany()
                         .HasForeignKey("ToUserID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("finTrack.Models.AppUser", "User")
                         .WithMany("Transactions")

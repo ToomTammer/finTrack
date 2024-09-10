@@ -14,7 +14,7 @@ services:
         - "3307:3306"
       volumes:
         - datafiles:/var/lib/mysql
-        - "~/sql-scripts/setup.sql:/docker-entrypoint-initdb.d/1.sql"
+        # - "~/sql-scripts/setup.sql:/docker-entrypoint-initdb.d/1.sql"
       restart: always
       environment: 
         MYSQL_ROOT_PASSWORD: Root0++
@@ -35,10 +35,11 @@ services:
       - mysql
     ports:
       - "5000:80"
+      - "5001:443"
     restart: always
     environment:
-      - DBHOST=mysql
-      # - ASPNETCORE_ENVIRONMENT=Development
+      # - DBHOST=mysql
+      - ASPNETCORE_ENVIRONMENT=Development
     networks:
       - mynetwork
 

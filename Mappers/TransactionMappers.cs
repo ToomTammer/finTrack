@@ -56,8 +56,8 @@ namespace finTrack.Mappers
                 Amount = request.Amount,
                 Action = Enum.Parse<TransactionAction>(request.Action),
                 UserID = request.UserID,
-                FromUserID = request?.FromUserID?? string.Empty,
-                ToUserID = request?.ToUserID?? string.Empty,
+                FromUserID = request?.FromUserID?? null,
+                ToUserID = request?.ToUserID?? null,
                 Balance = request.Balance
 
             };

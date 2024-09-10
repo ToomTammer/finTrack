@@ -99,14 +99,12 @@ namespace finTrack.Controllers
                 AppUser? toUser = new AppUser();
 
                 request.UserID = user.Id;
-                request.FromUserID = user.Id;
 
                 if (request.Action == TransactionAction.Transfer.ToString())
                 {
                     toUser = await _acountRepo.GetUserByUserNameAsync(request.ToUserName);
                     request.ToUserID = toUser?.Id;
-                }else{
-                    request.ToUserID = user.Id;
+                    request.FromUserID = user.Id;
                 }
                 
                 var transaction = request.ToTransactionFromTransactionRequestDto();
@@ -126,7 +124,7 @@ namespace finTrack.Controllers
                     
                     fromUser.Balance -= request.Amount;
 
-                    if (fromUser.Balance <= 0)
+                    if (fromUser.Balance < 0)
                     {
                         return StatusCode(400, new { success = false, message = "Insufficient balance to complete the transaction."});
                     }
@@ -175,7 +173,7 @@ namespace finTrack.Controllers
                         return BadRequest("Insufficient balance or user not found.");
                     }
                     user.Balance -= request.Amount;
-                    if (user.Balance <= 0)
+                    if (user.Balance < 0)
                     {
                         return StatusCode(400, new { success = false, message = "Insufficient balance to complete the transaction."});
                     }

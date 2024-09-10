@@ -29,19 +29,23 @@ namespace finTrack.Controllers.Data
             builder.Entity<Transaction>()
                 .HasOne(t => t.User)
                 .WithMany(u => u.Transactions)
-                .HasForeignKey(t => t.UserID);
+                .HasForeignKey(t => t.UserID)
+                .IsRequired(true);
 
             builder.Entity<Transaction>()
                 .HasOne(t => t.FromUser)
                 .WithMany()
                 .HasForeignKey(t => t.FromUserID)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired(false);
+                
 
             builder.Entity<Transaction>()
                 .HasOne(t => t.ToUser)
                 .WithMany()
                 .HasForeignKey(t => t.ToUserID)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired(false);
            
             
             List<IdentityRole> roles = new List<IdentityRole>

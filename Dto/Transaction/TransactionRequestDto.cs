@@ -12,8 +12,8 @@ namespace finTrack.Dto.Transaction
         public decimal Amount { get; set; }
         [Required]
         public string Action { get; set; }
-        public string? FromUserID { get; set; } = "fyi";
-        public string? ToUserID { get; set; } = "fyi";
+        public string? FromUserID { get; set; } = null;
+        public string? ToUserID { get; set; } = null;
         public string? ToUserName { get; set; } = string.Empty;
         public string? UserID { get; set; }
         public decimal Balance { get; set; }

@@ -16,11 +16,11 @@ namespace finTrack.Models
         public decimal Amount { get; set; }
         public decimal Balance { get; set; }
         public TransactionAction Action { get; set; }
-        public string FromUserID { get; set; }
-        public string ToUserID { get; set; }
+        public string? FromUserID { get; set; }
+        public string? ToUserID { get; set; }
         public AppUser User { get; set; }
-        public AppUser FromUser { get; set; }
-        public AppUser ToUser { get; set; }
+        public AppUser? FromUser { get; set; }
+        public AppUser? ToUser { get; set; }
     }
 
     public enum TransactionAction

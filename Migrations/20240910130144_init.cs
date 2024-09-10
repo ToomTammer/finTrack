@@ -218,9 +218,9 @@ namespace finTrack.Migrations
                     Amount = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     Balance = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     Action = table.Column<int>(type: "int", nullable: false),
-                    FromUserID = table.Column<string>(type: "varchar(255)", nullable: false)
+                    FromUserID = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ToUserID = table.Column<string>(type: "varchar(255)", nullable: false)
+                    ToUserID = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -252,8 +252,8 @@ namespace finTrack.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2f323509-be86-4c76-90a2-e2b5f107b5bd", null, "User", "USER" },
-                    { "7fdebff4-8563-428a-bd67-576dfd112029", null, "Amin", "ADMIN" }
+                    { "07ae672f-480e-4dc2-a158-14b958897b2b", null, "Amin", "ADMIN" },
+                    { "cd396db0-f318-42ed-b180-7ec38f0112fd", null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(

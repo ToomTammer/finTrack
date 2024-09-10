@@ -93,7 +93,11 @@ function updateTransactionHistory() {
             table.html(response);
         },
         error: function() {
-            alert('Failed to fetch transaction history. Please try again.');
+            Swal.fire({
+                title: "Transaction Failed",
+                icon: "error",
+                confirmButtonText: "OK"
+            });
         }
     });
 }
@@ -146,9 +150,10 @@ function PostConfirmation(dataPost) {
             }
         },
         error: function(err) {
+            var response = err.responseJSON;
             Swal.fire({
-                title: "Failed",
-                text: err.responseJSON.message,
+                title: "Transaction Failed",
+                text: response.message,
                 icon: "error",
                 confirmButtonText: "OK"
             });
@@ -184,9 +189,10 @@ function PostTransaction(dataPost) {
             }  
         },
         error: function(err) {
+            var response = err.responseJSON;
             Swal.fire({
                 title: "Transaction Failed",
-                text: err.responseJSON.message,
+                text: response.message,
                 icon: "error",
                 confirmButtonText: "OK"
             });
