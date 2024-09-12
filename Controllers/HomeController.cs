@@ -18,8 +18,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> IndexAsync()
     {
-        string TOKEN = Request?.Cookies["TOKEN"] ?? "";
-        var UserID = await _tokenService.ValidateJwtTokenAndGetUserID(TOKEN);
+        var UserID = HttpContext.Items["UserID"]?.ToString();
         var user = await _acountRepo.GetUserByGuidAsync(UserID);
         if (user != null) return RedirectToAction("Content", "Home");
         return View();
@@ -32,8 +31,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> RegisterAsync()
     {
-        string TOKEN = Request?.Cookies["TOKEN"] ?? "";
-        var UserID = await _tokenService.ValidateJwtTokenAndGetUserID(TOKEN);
+        var UserID = HttpContext.Items["UserID"]?.ToString();
         var user = await _acountRepo.GetUserByGuidAsync(UserID);
         if (user != null) return RedirectToAction("Content", "Home");
 
@@ -42,8 +40,8 @@ public class HomeController : Controller
 
     public async Task<IActionResult> ContentAsync()
     {
-        string TOKEN = Request?.Cookies["TOKEN"] ?? "";
-        var UserID = await _tokenService.ValidateJwtTokenAndGetUserID(TOKEN);
+        if (!HttpContext.Items.ContainsKey("UserID"))return RedirectToAction("Index", "Home");
+        var UserID = HttpContext.Items["UserID"]?.ToString();
         if (string.IsNullOrEmpty(UserID)) return RedirectToAction("Index", "Home");
         var user = await _acountRepo.GetUserByGuidAsync(UserID);
         if (user == null) return RedirectToAction("Index", "Home");

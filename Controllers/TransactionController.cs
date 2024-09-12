@@ -32,8 +32,8 @@ namespace finTrack.Controllers
         [HttpPost("confirmation")]
         public async Task<ActionResult> confirmationTransaction([FromBody]TransactionRequestDto request)
         {
-            string TOKEN = Request?.Cookies["TOKEN"] ?? "";
-            var UserID = await _tokenService.ValidateJwtTokenAndGetUserID(TOKEN);
+            if (!HttpContext.Items.ContainsKey("UserID"))return StatusCode(400);
+            var UserID = HttpContext.Items["UserID"]?.ToString();
             if (string.IsNullOrEmpty(UserID)) return StatusCode(400);
 
             var user = await _acountRepo.GetUserByGuidAsync(UserID);
@@ -86,8 +86,8 @@ namespace finTrack.Controllers
         {
             try
             {
-                string TOKEN = Request?.Cookies["TOKEN"] ?? "";
-                var UserID = await _tokenService.ValidateJwtTokenAndGetUserID(TOKEN);
+                if (!HttpContext.Items.ContainsKey("UserID"))return StatusCode(400);
+                var UserID = HttpContext.Items["UserID"]?.ToString();
                 if (string.IsNullOrEmpty(UserID)) return StatusCode(400, new { success = false, message = "user not found."});
 
                 var user = await _acountRepo.GetUserByGuidAsync(UserID);
@@ -203,8 +203,9 @@ namespace finTrack.Controllers
         [HttpGet("GetTransactionsHistory")]
         public async Task<IActionResult> GetTransactionsHistory([FromQuery]TransactionDto request)
         {
-            string TOKEN = Request?.Cookies["TOKEN"] ?? "";
-            var UserID = await _tokenService.ValidateJwtTokenAndGetUserID(TOKEN);
+            if (!HttpContext.Items.ContainsKey("UserID"))return StatusCode(400);
+            var UserID = HttpContext.Items["UserID"]?.ToString();
+
             if (string.IsNullOrEmpty(UserID)) return StatusCode(400);
 
             var user = await _acountRepo.GetUserByGuidAsync(UserID);
@@ -219,7 +220,7 @@ namespace finTrack.Controllers
 
             var pageTotal = (int)Math.Ceiling((double)model.totalItemCount / request.PageSize);
             ViewBag.PageNumberTotal = pageTotal;
-            ViewBag.PageNumber = request.PageNumber;
+            ViewBag.PageNumber = request.PageNumber; 
             ViewBag.FormName = "pagination";
 
             List<TransactionDto> result = model.transactionList.Select(x => x.ToTransactionDto()).ToList();

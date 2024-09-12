@@ -36,7 +36,7 @@ namespace finTrack.Controllers.Data
                 .HasOne(t => t.FromUser)
                 .WithMany()
                 .HasForeignKey(t => t.FromUserID)
-                .OnDelete(DeleteBehavior.Restrict)
+                // .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired(false);
                 
 
@@ -44,7 +44,7 @@ namespace finTrack.Controllers.Data
                 .HasOne(t => t.ToUser)
                 .WithMany()
                 .HasForeignKey(t => t.ToUserID)
-                .OnDelete(DeleteBehavior.Restrict)
+                // .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired(false);
            
             

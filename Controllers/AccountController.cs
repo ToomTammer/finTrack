@@ -118,8 +118,9 @@ namespace finTrack.Controllers
         [HttpGet("balance/{userId}")]
         public async Task<IActionResult> GetBalance()
         {
-            string TOKEN = Request?.Cookies["TOKEN"] ?? "";
-            var UserID = await _tokenService.ValidateJwtTokenAndGetUserID(TOKEN);
+            if (!HttpContext.Items.ContainsKey("UserID"))return StatusCode(400);
+  
+            var UserID = HttpContext.Items["UserID"]?.ToString();
             if (string.IsNullOrEmpty(UserID)) return StatusCode(400);
 
             var user = await _acountRepo.GetUserByGuidAsync(UserID);

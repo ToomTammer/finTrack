@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using finTrack.Models;
 using finTrack.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using finTrack.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,14 +47,33 @@ builder.Services.AddAuthentication(option =>
     option.DefaultForbidScheme =
     option.DefaultScheme =
     option.DefaultSignInScheme =
-    option.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    option.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(option =>{
+    
+    option.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true, 
+        ValidIssuer = builder.Configuration["JWT:Issuer"], 
+        ValidateAudience = true, 
+        ValidAudience = builder.Configuration["JWT:Audience"],
+        ValidateIssuerSigningKey = true, 
+        IssuerSigningKey = new SymmetricSecurityKey(
+            System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]!)
+        )
+
+    };
 });
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAcountRepository, AcountRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+// Add the global scope for JwtService.
+builder.Services.AddScoped<TokenService>(); 
+builder.Services.AddTransient<JwtMiddleware>();
 
 var app = builder.Build();
+
+app.UseMiddleware<JwtMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
