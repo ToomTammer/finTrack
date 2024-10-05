@@ -68,7 +68,13 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAcountRepository, AcountRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 // Add the global scope for JwtService.
-builder.Services.AddScoped<TokenService>(); 
+// Registers the TokenService with the dependency injection (DI) container.
+// The Scoped lifetime ensures that a new instance of TokenService is created once per HTTP request.
+// This instance will be reused within that same request.
+builder.Services.AddScoped<TokenService>();
+// Registers the JwtMiddleware with the dependency injection (DI) container.
+// The Transient lifetime ensures that a new instance of JwtMiddleware is created each time it is requested.
+// This is useful when you want lightweight, short-lived instances of a service.
 builder.Services.AddTransient<JwtMiddleware>();
 
 var app = builder.Build();
